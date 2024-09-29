@@ -1,0 +1,39 @@
+# Lints NodeJS apps by calling their "lint" script
+
+name: Lint Node Files
+
+on:
+  workflow_call:
+    inputs:
+      node_version:
+        description: "Node version i.e., 16.x, 16.14.2, etc."
+        required: true
+        type: string
+        default: "16.14.2"
+      path:
+        description: "Directory path to execute lint"
+        required: false
+        type: string
+        default: "./"
+
+jobs:
+  lint-node-app:
+    name: Lint Node App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Use NodeJS ${{ inputs.node_version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node_version }}
+      - name: Install Dependencies and lint
+        run: |
+          if [ -d "${{ inputs.path }}" ]; then
+            cd ${{ inputs.path }}
+          else
+            echo "Directory ${{ inputs.path }} does not exist."
+            exit 1
+          fi
+          npm install
+          npm run lint
