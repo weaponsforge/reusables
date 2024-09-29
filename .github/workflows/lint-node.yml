@@ -10,16 +10,19 @@ on:
         required: true
         type: string
         default: "16.14.2"
-      path:
-        description: "Directory path to execute lint"
-        required: false
-        type: string
-        default: "./"
+      paths:
+        description: "List of directory path to execute lint"
+        required: true
+        type: array
+        default: ["./"]
 
 jobs:
   lint-node-app:
     name: Lint Node App
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        path: ${{ inputs.paths || ['./'] }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
@@ -29,10 +32,10 @@ jobs:
           node-version: ${{ inputs.node_version }}
       - name: Install Dependencies and lint
         run: |
-          if [ -d "${{ inputs.path }}" ]; then
-            cd ${{ inputs.path }}
+          if [ -d "${{ matrix.path }}" ]; then
+            cd ${{ matrix.path }}
           else
-            echo "Directory ${{ inputs.path }} does not exist."
+            echo "Directory ${{ matrix.path }} does not exist."
             exit 1
           fi
           npm install

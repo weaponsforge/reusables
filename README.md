@@ -13,7 +13,7 @@ The reusables code repository contains common reusable GitHub Actions workflows 
 | Input | Description |
 | --- | --- |
 | `node_version` | Node version to use with the runner i.e., 16.x, 16.14.2, etc. |
-| `path` | (Optional) Directory path to execute lint, relative to the `.github` directory. Defaults to the root repository directory if not provided. |
+| `path` | (Optional) List of directory path(s) to execute lint, relative to the `.github` directory. Defaults to the root repository directory if not provided. |
 
 ### Sample Usage
 
@@ -34,7 +34,9 @@ jobs:
     uses: weaponsforge/reusables/.github/workflows/lint-node.yml@main
     with:
       node_version: "20.15.0"
-      path: "./server"
+      paths:
+        - "./client"
+        - "./server"
 ```
 
 </details>
