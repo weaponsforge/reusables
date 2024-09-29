@@ -1,4 +1,6 @@
-A set of common reusable workflows
+## reusables
+
+The reusables code repository contains common reusable GitHub Actions workflows frequently used by Node-related apps. They are available on call from `workflow_call`.
 
 ## Workflows
 
